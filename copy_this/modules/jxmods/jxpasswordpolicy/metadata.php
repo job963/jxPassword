@@ -15,16 +15,16 @@ $sMetadataVersion = '1.1';
 
 $aModule = array(
     'id'           => 'jxPasswordPolicy',
-    'title'        => 'jxPasswordPolicy - Configurable Rules for the Password Policy',
+    'title'        => 'jxPasswordPolicy - Configurable Rules for Strong Passwords',
     'description'  => array(
-                        'de' => '<b>Ermitteln der Lagerstandsdaten von den Lieferanten Websites oder Webshops</b><ul>'
-                                . '<li>Aufrufen der Lieferantenseiten'
-                                . '<li>Analysieren der Lagerbestandsdaten'
-                                . '<li>Aktualisieren der Shop-Artikel</ul>',
-                        'en' => '<b>Collecting of stock data from deliverer websites or webshops</b><ul>'
-                                . '<li>Retrieving the deliverer product pages'
-                                . '<li>Analyzing the stock data'
-                                . '<li>Updating the shop products</ul>',
+                        'de' => '<b>Konfigurierbare Regeln für starke Passwörter</b><ul>'
+                                . '<li>einstellbare Passwortlänge'
+                                . '<li>konfigurierbare Regeln (Groß, Klein, Nummern, ...)'
+                                . '<li>Prüfung auf Wiederholungen (Name, E-Mail, ..)</ul>',
+                        'en' => '<b>Configurable password policy for strong passwords</b><ul>'
+                                . '<li>Adjustable password length'
+                                . '<li>Configurable rules (upper case, lower case, numbers, ...)'
+                                . '<li>Check of repeatings (name, email, ...)</ul>',
                         ),
     'thumbnail'    => 'jxpasswordpolicy.png',
     'version'      => '0.1.0',
@@ -32,10 +32,14 @@ $aModule = array(
     'url'          => 'https://github.com/job963/jxPasswordPolicy',
     'email'        => 'jobarthel@gmail.com',
     'extend'       => array(
-                            'oxinputvalidator'    =>      'jxmods/jxPasswordPolicy/core/jxpasswordpolicy_oxinputvalidator' 
+                            'oxinputvalidator'  =>  'jxmods/jxpasswordpolicy/core/jxpasswordpolicy_oxinputvalidator',
+                            'oxuser'            =>  'jxmods/jxpasswordpolicy/application/models/jxpasswordpolicy_oxuser',
+                            'account_password'  =>  'jxmods/jxpasswordpolicy/application/controllers/jxpasswordpolicy_account_password',
                         ),
     'files'        => array(
-                            'jxpasswordpolicy_oxInputValidator' => 'jxmods/jxPasswordPolicy/core/jxpasswordpolicy_oxinputvalidator.php',
+                            'jxpasswordpolicy_oxinputvalidator' => 'jxmods/jxpasswordpolicy/core/jxpasswordpolicy_oxinputvalidator.php',
+                            'jxpasswordpolicy_oxuser'           => 'jxmods/jxpasswordpolicy/application/models/jxpasswordpolicy_oxuser.php',
+                            'jxpasswordpolicy_account_password' => 'jxmods/jxpasswordpolicy/application/controllers/jxpasswordpolicy_account_password.php',
                         ),
     'templates'     => array(
                         ),
@@ -104,6 +108,12 @@ $aModule = array(
                             array(
                                 'group' => 'JXPASSWORDPOLICY_PASSWORDSETTINGS', 
                                 'name'  => 'bJxPasswordPolicyMustntContainName',  
+                                'type'  => 'bool', 
+                                'value' => true
+                                ),
+                            array(
+                                'group' => 'JXPASSWORDPOLICY_PASSWORDSETTINGS', 
+                                'name'  => 'bJxPasswordPolicyMustntContainAddress',  
                                 'type'  => 'bool', 
                                 'value' => true
                                 ),

@@ -14,5 +14,6 @@ $aLang = array(
         'JXPASSWORDPOLICY_ERROR_CONTAINS_EMAIL'                 => 'Fehler: Ihr Passwort enthält Teile der E-Mail',
         'JXPASSWORDPOLICY_ERROR_CONTAINS_CUSTNO'                => 'Fehler: Ihr Passwort enthält die Kunden-Nr.',
         'JXPASSWORDPOLICY_ERROR_CONTAINS_NAME'                  => 'Fehler: Ihr Passwort enthält Teile des Namen',
+        'JXPASSWORDPOLICY_ERROR_CONTAINS_ADDRESS'               => 'Fehler: Ihr Passwort enthält Teile der Adresse',
     
 );

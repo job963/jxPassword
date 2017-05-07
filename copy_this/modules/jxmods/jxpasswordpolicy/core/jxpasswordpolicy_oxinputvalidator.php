@@ -24,7 +24,8 @@
 
 class jxpasswordpolicy_oxinputvalidator extends jxpasswordpolicy_oxinputvalidator_parent
 {
-/**
+    
+    /**
      * Checking if user password is fine. In case of error
      * exception is thrown
      *
@@ -32,16 +33,19 @@ class jxpasswordpolicy_oxinputvalidator extends jxpasswordpolicy_oxinputvalidato
      * @param string $sNewPass      new user password
      * @param string $sConfPass     retyped user password
      * @param bool   $blCheckLength option to check password length
+     * @param string $sLogin        email of the user
+     * @param array  $aInvAddress   array of user profile data
      *
      * @return oxException|null
      */
-    public function checkPassword($oUser, $sNewPass, $sConfPass, $blCheckLength = false)
+    public function checkPassword($oUser, $sNewPass, $sConfPass, $blCheckLength = false, $sLogin = false, $aInvAddress = array())
     {
         $oConfig = oxRegistry::get('oxConfig');
         
     $sLogPath = $oConfig->getConfigParam("sShopDir") . '/log/';
     $fh = fopen($sLogPath.'jxmods.log', "a+");
     fputs($fh, 'checkPassword: '.$sNewPass."\n");
+    fputs($fh, print_r($aInvAddress,true)."\n");
     //fputs($fh,'numCR:'.print_r($oUser,true)."\n");
     fclose($fh);
     
@@ -90,15 +94,13 @@ class jxpasswordpolicy_oxinputvalidator extends jxpasswordpolicy_oxinputvalidato
             return $this->_addValidationError("oxuser__oxpassword", $oEx);
         }
         
+        // User exists already
         if (!empty($oUser->oxuser__oxid)) {
+echo 'oUser not empty'.'<br>';
             if ($oConfig->getConfigParam('bJxPasswordPolicyMustntContainEmail')) {
-                preg_match_all("/(.*)@(.*)\.(.*)/", $oUser->oxuser__oxusername->rawValue, $aResult, PREG_SET_ORDER);
-                //move one level higher
-                $aResult = $aResult[0];
-                //remove element [0]
-                array_shift($aResult);
+                $aEmailParts = $this->_splitEmailAddress($oUser->oxuser__oxusername->rawValue);
                 
-                foreach ($aResult as $key => $sEmailPart) {
+                foreach ($aEmailParts as $key => $sEmailPart) {
                     if (strpos(strtoupper($sNewPass), strtoupper($sEmailPart)) !== false) {
                         $oEx = oxNew('oxInputException');
                         $oEx->setMessage(oxRegistry::getLang()->translateString('JXPASSWORDPOLICY_ERROR_CONTAINS_EMAIL'));
@@ -124,13 +126,62 @@ class jxpasswordpolicy_oxinputvalidator extends jxpasswordpolicy_oxinputvalidato
 
                         return $this->_addValidationError("oxuser__oxpassword", $oEx);
                 }
-                
             }
-        } else {
-            echo 'NEUER USER'.'<br>';
+        } 
+        // New user
+        else {
+            echo 'NEUER USER:'.$sLogin.'<br>';
+            if ($oConfig->getConfigParam('bJxPasswordPolicyMustntContainEmail')) {
+                $aEmailParts = $this->_splitEmailAddress($sLogin);
+                
+                foreach ($aEmailParts as $key => $sEmailPart) {
+                    if (strpos(strtoupper($sNewPass), strtoupper($sEmailPart)) !== false) {
+                        $oEx = oxNew('oxInputException');
+                        $oEx->setMessage(oxRegistry::getLang()->translateString('JXPASSWORDPOLICY_ERROR_CONTAINS_EMAIL'));
+
+                        return $this->_addValidationError("oxuser__oxpassword", $oEx);
+                    }
+                }
+            }
+            
+            if ($oConfig->getConfigParam('bJxPasswordPolicyMustntContainName')) {
+                if ((strpos(strtoupper($sNewPass), strtoupper($aInvAddress['oxuser__oxfname'])) !== false) || (strpos(strtoupper($sNewPass), strtoupper($aInvAddress['oxuser__oxlname'])) !== false)) {
+                        $oEx = oxNew('oxInputException');
+                        $oEx->setMessage(oxRegistry::getLang()->translateString('JXPASSWORDPOLICY_ERROR_CONTAINS_NAME'));
+
+                        return $this->_addValidationError("oxuser__oxpassword", $oEx);
+                }
+            }
         }
         
         return $oxException;
+    }
+    
+    
+    /**
+     * Splits the email into the parts before @, sub and top domain
+     * 
+     * @param string $sEmail    Email of user
+     * 
+     * @return array EmailParts
+     */
+    private function _splitEmailAddress($sEmail)
+    {
+        preg_match_all("/(.*)@(.*)\.(.*)/", $sEmail, $aResult, PREG_SET_ORDER);
+        
+        //move one level higher
+        $aResult = $aResult[0];
+        
+        //remove element [0]
+        array_shift($aResult);
+        
+$oConfig = oxRegistry::get('oxConfig');
+$sLogPath = $oConfig->getConfigParam("sShopDir") . '/log/';
+$fh = fopen($sLogPath.'jxmods.log', "a+");
+fputs($fh, print_r($aResult, true)."\n");
+fclose($fh);
+
+        return $aResult;
     }
     
 }

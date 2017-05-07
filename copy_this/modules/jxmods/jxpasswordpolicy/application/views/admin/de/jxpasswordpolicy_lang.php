@@ -31,4 +31,5 @@ $aLang = array(
         'SHOP_MODULE_bJxPasswordPolicyMustntContainEmail'       => 'Darf E-Mail nicht enthalten',
         'SHOP_MODULE_bJxPasswordPolicyMustntContainCustNo'      => 'Darf Kunden-Nr. nicht enthalten',
         'SHOP_MODULE_bJxPasswordPolicyMustntContainName'        => 'Darf Vor- oder Nachname nicht enthalten',
+        'SHOP_MODULE_bJxPasswordPolicyMustntContainAddress'     => 'Darf Adresse nicht enthalten',
 );
