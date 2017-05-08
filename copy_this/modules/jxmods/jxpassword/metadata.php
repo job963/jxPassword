@@ -7,15 +7,15 @@ $sMetadataVersion = '1.1';
 /**
  * Module information
  * 
- * @link      https://github.com/job963/jxPasswordPolicy
+ * @link      https://github.com/job963/jxPassword
  * @license   http://www.gnu.org/licenses/gpl-3.0.html GPL v3 or later
  * @copyright (C) Joachim Barthel 2017
  * 
  **/
 
 $aModule = array(
-    'id'           => 'jxPasswordPolicy',
-    'title'        => 'jxPasswordPolicy - Configurable Rules for Strong Passwords',
+    'id'           => 'jxPassword',
+    'title'        => 'jxPassword - Configurable Rules for Strong Passwords',
     'description'  => array(
                         'de' => '<b>Konfigurierbare Regeln für starke Passwörter</b><ul>'
                                 . '<li>einstellbare Passwortlänge'
@@ -26,20 +26,20 @@ $aModule = array(
                                 . '<li>Configurable rules (upper case, lower case, numbers, ...)'
                                 . '<li>Check of repeatings (name, email, ...)</ul>',
                         ),
-    'thumbnail'    => 'jxpasswordpolicy.png',
-    'version'      => '0.1.0',
+    'thumbnail'    => 'jxpassword.png',
+    'version'      => '0.1.1',
     'author'       => 'Joachim Barthel',
-    'url'          => 'https://github.com/job963/jxPasswordPolicy',
+    'url'          => 'https://github.com/job963/jxPassword',
     'email'        => 'jobarthel@gmail.com',
     'extend'       => array(
-                            'oxinputvalidator'  =>  'jxmods/jxpasswordpolicy/core/jxpasswordpolicy_oxinputvalidator',
-                            'oxuser'            =>  'jxmods/jxpasswordpolicy/application/models/jxpasswordpolicy_oxuser',
-                            'account_password'  =>  'jxmods/jxpasswordpolicy/application/controllers/jxpasswordpolicy_account_password',
+                            'oxinputvalidator'  =>  'jxmods/jxpassword/core/jxpassword_oxinputvalidator',
+                            'oxuser'            =>  'jxmods/jxpassword/application/models/jxpassword_oxuser',
+                            'account_password'  =>  'jxmods/jxpassword/application/controllers/jxpassword_account_password',
                         ),
     'files'        => array(
-                            'jxpasswordpolicy_oxinputvalidator' => 'jxmods/jxpasswordpolicy/core/jxpasswordpolicy_oxinputvalidator.php',
-                            'jxpasswordpolicy_oxuser'           => 'jxmods/jxpasswordpolicy/application/models/jxpasswordpolicy_oxuser.php',
-                            'jxpasswordpolicy_account_password' => 'jxmods/jxpasswordpolicy/application/controllers/jxpasswordpolicy_account_password.php',
+                            'jxpassword_oxinputvalidator' => 'jxmods/jxpassword/core/jxpassword_oxinputvalidator.php',
+                            'jxpassword_oxuser'           => 'jxmods/jxpassword/application/models/jxpassword_oxuser.php',
+                            'jxpassword_account_password' => 'jxmods/jxpassword/application/controllers/jxpassword_account_password.php',
                         ),
     'templates'     => array(
                         ),
@@ -56,64 +56,64 @@ $aModule = array(
                         ),
    'settings'      => array(
                             array(
-                                'group' => 'JXPASSWORDPOLICY_PASSWORDSETTINGS', 
-                                'name'  => 'sJxPasswordPolicyMinLength',  
+                                'group' => 'JXPASSWORD_PASSWORDSETTINGS', 
+                                'name'  => 'sJxPasswordMinLength',  
                                 'type'  => 'select', 
                                 'value' => '8',
                                 'constraints' => '6|7|8|9|10|11|12|13|14|15|16'
                                 ),
                             array(
-                                'group' => 'JXPASSWORDPOLICY_PASSWORDSETTINGS', 
-                                'name'  => 'bJxPasswordPolicyUpperCase',  
+                                'group' => 'JXPASSWORD_PASSWORDSETTINGS', 
+                                'name'  => 'bJxPasswordUpperCase',  
                                 'type'  => 'bool', 
                                 'value' => true
                                 ),
                             array(
-                                'group' => 'JXPASSWORDPOLICY_PASSWORDSETTINGS', 
-                                'name'  => 'bJxPasswordPolicyLowerCase',  
+                                'group' => 'JXPASSWORD_PASSWORDSETTINGS', 
+                                'name'  => 'bJxPasswordLowerCase',  
                                 'type'  => 'bool', 
                                 'value' => true
                                 ),
                             array(
-                                'group' => 'JXPASSWORDPOLICY_PASSWORDSETTINGS', 
-                                'name'  => 'bJxPasswordPolicyNumbers',  
+                                'group' => 'JXPASSWORD_PASSWORDSETTINGS', 
+                                'name'  => 'bJxPasswordNumbers',  
                                 'type'  => 'bool', 
                                 'value' => true
                                 ),
                             array(
-                                'group' => 'JXPASSWORDPOLICY_PASSWORDSETTINGS', 
-                                'name'  => 'bJxPasswordPolicySpecialChars',  
+                                'group' => 'JXPASSWORD_PASSWORDSETTINGS', 
+                                'name'  => 'bJxPasswordSpecialChars',  
                                 'type'  => 'bool', 
                                 'value' => false
                                 ),
                             array(
-                                'group' => 'JXPASSWORDPOLICY_PASSWORDSETTINGS', 
-                                'name'  => 'sJxPasswordPolicyMinNumCharRules',  
+                                'group' => 'JXPASSWORD_PASSWORDSETTINGS', 
+                                'name'  => 'sJxPasswordMinNumCharRules',  
                                 'type'  => 'select', 
                                 'value' => '3',
                                 'constraints' => '1|2|3|4'
                                 ),
                             array(
-                                'group' => 'JXPASSWORDPOLICY_PASSWORDSETTINGS', 
-                                'name'  => 'bJxPasswordPolicyMustntContainEmail',  
+                                'group' => 'JXPASSWORD_PASSWORDRULES', 
+                                'name'  => 'bJxPasswordMustntContainEmail',  
                                 'type'  => 'bool', 
                                 'value' => true
                                 ),
                             array(
-                                'group' => 'JXPASSWORDPOLICY_PASSWORDSETTINGS', 
-                                'name'  => 'bJxPasswordPolicyMustntContainCustNo',  
+                                'group' => 'JXPASSWORD_PASSWORDRULES', 
+                                'name'  => 'bJxPasswordMustntContainCustNo',  
                                 'type'  => 'bool', 
                                 'value' => true
                                 ),
                             array(
-                                'group' => 'JXPASSWORDPOLICY_PASSWORDSETTINGS', 
-                                'name'  => 'bJxPasswordPolicyMustntContainName',  
+                                'group' => 'JXPASSWORD_PASSWORDRULES', 
+                                'name'  => 'bJxPasswordMustntContainName',  
                                 'type'  => 'bool', 
                                 'value' => true
                                 ),
                             array(
-                                'group' => 'JXPASSWORDPOLICY_PASSWORDSETTINGS', 
-                                'name'  => 'bJxPasswordPolicyMustntContainAddress',  
+                                'group' => 'JXPASSWORD_PASSWORDRULES', 
+                                'name'  => 'bJxPasswordMustntContainAddress',  
                                 'type'  => 'bool', 
                                 'value' => true
                                 ),

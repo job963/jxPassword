@@ -11,4 +11,4 @@ OXID eShop Extension for  for a Configurable Password Policy
   
 ## Screenshot ##
 
-![settings](/docs/img/passwordpolicy-settings-en.png)
+![settings](/docs/img/passwordpolicy-settings-en.png) {: width="50%"}
