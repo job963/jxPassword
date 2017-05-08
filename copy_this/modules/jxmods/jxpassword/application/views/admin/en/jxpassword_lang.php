@@ -6,7 +6,7 @@ $iLangNr    = 0;
 $aLang = array(
 	'charset'                                               => 'UTF-8',
     
-        'SHOP_MODULE_GROUP_JXPASSWORDPOLICY_PASSWORDSETTINGS'   => 'Password requirements',
+        'SHOP_MODULE_GROUP_JXPASSWORD_PASSWORDSETTINGS'   => 'Password requirements',
         'SHOP_MODULE_sJxPasswordMinLength'                => 'Minimum password length',
         'SHOP_MODULE_sJxPasswordMinLength_6'              => '6',
         'SHOP_MODULE_sJxPasswordMinLength_7'              => '7',
@@ -28,6 +28,7 @@ $aLang = array(
         'SHOP_MODULE_sJxPasswordMinNumCharRules_2'        => '2',
         'SHOP_MODULE_sJxPasswordMinNumCharRules_3'        => '3',
         'SHOP_MODULE_sJxPasswordMinNumCharRules_4'        => 'all',
+        'SHOP_MODULE_GROUP_JXPASSWORD_PASSWORDRULES'      => 'Password rules',
         'SHOP_MODULE_bJxPasswordMustntContainEmail'       => 'Mustn\'t contain email',
         'SHOP_MODULE_bJxPasswordMustntContainCustNo'      => 'Mustn\'t contain customer number',
         'SHOP_MODULE_bJxPasswordMustntContainName'        => 'Mustn\'t contain first name and last name',
