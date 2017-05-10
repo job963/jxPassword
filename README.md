@@ -11,4 +11,4 @@ OXID eShop Extension for  for a Configurable Password Policy
   
 ## Screenshot ##
 
-![settings](/docs/img/jxpassword-settings-en.png){:width="408px"}
+![settings](/docs/img/jxpassword-settings-en-r.png)
