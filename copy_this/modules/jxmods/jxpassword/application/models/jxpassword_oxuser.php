@@ -52,9 +52,8 @@ class jxpassword_oxuser extends jxpassword_oxuser_parent
         // 2. checking email
         $oInputValidator->checkEmail($this, $sLogin, $aInvAddress);
 
-        // 3. password
-echo 'new checkValues: sLogin='.$sLogin.'<br>';        
-        $oInputValidator->checkPassword($this, $sPassword, $sPassword2, ((int) oxRegistry::getConfig()->getRequestParameter('option') == 3), $sLogin, $aInvAddress);
+        // 3. checking password rules
+        $oInputValidator->checkPassword($this, $sPassword, $sPassword2, ((int) oxRegistry::getConfig()->getRequestParameter('option') == 3), $sPassword, $sLogin, $aInvAddress);
 
         // 4. required fields
         $oInputValidator->checkRequiredFields($this, $aInvAddress, $aDelAddress);

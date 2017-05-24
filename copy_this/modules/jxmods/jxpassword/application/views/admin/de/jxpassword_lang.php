@@ -29,8 +29,10 @@ $aLang = array(
         'SHOP_MODULE_sJxPasswordMinNumCharRules_3'        => '3',
         'SHOP_MODULE_sJxPasswordMinNumCharRules_4'        => 'alle',
         'SHOP_MODULE_GROUP_JXPASSWORD_PASSWORDRULES'      => 'Passwort-Regeln',
+        'SHOP_MODULE_bJxPasswordMustBeDifferent'          => 'Muss ungleich altem Passwort sein',
         'SHOP_MODULE_bJxPasswordMustntContainEmail'       => 'Darf E-Mail nicht enthalten',
         'SHOP_MODULE_bJxPasswordMustntContainCustNo'      => 'Darf Kunden-Nr. nicht enthalten',
         'SHOP_MODULE_bJxPasswordMustntContainName'        => 'Darf Vor- oder Nachname nicht enthalten',
         'SHOP_MODULE_bJxPasswordMustntContainAddress'     => 'Darf Adresse nicht enthalten',
+        'SHOP_MODULE_bJxPasswordMustntContainBirthday'    => 'Darf Geburtstag nicht enthalten',
 );

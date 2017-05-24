@@ -38,16 +38,16 @@ class jxpassword_oxinputvalidator extends jxpassword_oxinputvalidator_parent
      *
      * @return oxException|null
      */
-    public function checkPassword($oUser, $sNewPass, $sConfPass, $blCheckLength = false, $sLogin = false, $aInvAddress = array())
+    public function checkPassword($oUser, $sNewPass, $sConfPass, $blCheckLength = false, $sOldPass = null, $sLogin = false, $aInvAddress = array())
     {
         $oConfig = oxRegistry::get('oxConfig');
         
-    $sLogPath = $oConfig->getConfigParam("sShopDir") . '/log/';
-    $fh = fopen($sLogPath.'jxmods.log', "a+");
-    fputs($fh, 'checkPassword: '.$sNewPass."\n");
-    fputs($fh, print_r($aInvAddress,true)."\n");
-    //fputs($fh,'numCR:'.print_r($oUser,true)."\n");
-    fclose($fh);
+$sLogPath = $oConfig->getConfigParam("sShopDir") . '/log/';
+$fh = fopen($sLogPath.'jxmods.log', "a+");
+//fputs($fh, 'checkPassword: '.$sNewPass."\n");
+fputs($fh, print_r($oUser,true)."\n");
+//fputs($fh,'numCR:'.print_r($oUser,true)."\n");
+fclose($fh);
     
         $oxException = parent::checkPassword($oUser, $sNewPass, $sConfPass, $blCheckLength);
         if ($oxException) {
@@ -89,21 +89,30 @@ class jxpassword_oxinputvalidator extends jxpassword_oxinputvalidator_parent
         
         if ($iScore < $oConfig->getConfigParam('sJxPasswordMinNumCharRules')) {
             $oEx = oxNew('oxInputException');
-            $oEx->setMessage(oxRegistry::getLang()->translateString('JXPASSWORDPOLICY_ERROR_TO_LOW_SCORE'));
+            $oEx->setMessage(oxRegistry::getLang()->translateString('JXPASSWORD_ERROR_TO_LOW_SCORE'));
 
             return $this->_addValidationError("oxuser__oxpassword", $oEx);
         }
         
         // User exists already
         if (!empty($oUser->oxuser__oxid)) {
-echo 'oUser not empty'.'<br>';
+//echo 'oUser not empty'.'<br>';
+            if ($oConfig->getConfigParam('bJxPasswordMustBeDifferent')) {
+                if ($sNewPass == $sOldPass) {
+                        $oEx = oxNew('oxInputException');
+                        $oEx->setMessage(oxRegistry::getLang()->translateString('JXPASSWORD_ERROR_SAME_PASSWORD'));
+
+                        return $this->_addValidationError("oxuser__oxpassword", $oEx);
+                }
+            }
+            
             if ($oConfig->getConfigParam('bJxPasswordMustntContainEmail')) {
                 $aEmailParts = $this->_splitEmailAddress($oUser->oxuser__oxusername->rawValue);
                 
                 foreach ($aEmailParts as $key => $sEmailPart) {
                     if (strpos(strtoupper($sNewPass), strtoupper($sEmailPart)) !== false) {
                         $oEx = oxNew('oxInputException');
-                        $oEx->setMessage(oxRegistry::getLang()->translateString('JXPASSWORDPOLICY_ERROR_CONTAINS_EMAIL'));
+                        $oEx->setMessage(oxRegistry::getLang()->translateString('JXPASSWORD_ERROR_CONTAINS_EMAIL'));
 
                         return $this->_addValidationError("oxuser__oxpassword", $oEx);
                     }
@@ -113,7 +122,7 @@ echo 'oUser not empty'.'<br>';
             if ($oConfig->getConfigParam('bJxPasswordMustntContainCustNo')) {
                 if (strpos($sNewPass, $oUser->oxuser__oxcustnr->rawValue) !== false) {
                         $oEx = oxNew('oxInputException');
-                        $oEx->setMessage(oxRegistry::getLang()->translateString('JXPASSWORDPOLICY_ERROR_CONTAINS_CUSTNO'));
+                        $oEx->setMessage(oxRegistry::getLang()->translateString('JXPASSWORD_ERROR_CONTAINS_CUSTNO'));
 
                         return $this->_addValidationError("oxuser__oxpassword", $oEx);
                 }
@@ -122,9 +131,22 @@ echo 'oUser not empty'.'<br>';
             if ($oConfig->getConfigParam('bJxPasswordMustntContainName')) {
                 if ((strpos(strtoupper($sNewPass), strtoupper($oUser->oxuser__oxfname->rawValue)) !== false) || (strpos(strtoupper($sNewPass), strtoupper($oUser->oxuser__oxlname->rawValue)) !== false)) {
                         $oEx = oxNew('oxInputException');
-                        $oEx->setMessage(oxRegistry::getLang()->translateString('JXPASSWORDPOLICY_ERROR_CONTAINS_NAME'));
+                        $oEx->setMessage(oxRegistry::getLang()->translateString('JXPASSWORD_ERROR_CONTAINS_NAME'));
 
                         return $this->_addValidationError("oxuser__oxpassword", $oEx);
+                }
+            }
+            
+            if ($oConfig->getConfigParam('bJxPasswordMustntContainBirthday')) {
+                $aBirthdayParts = $this->_splitBirthday($oUser->oxuser__oxbirthdate->rawValue);
+                
+                foreach ($aBirthdayParts as $key => $sBirthdayPart) {
+                    if (strpos(strtoupper($sNewPass), strtoupper($sBirthdayPart)) !== false) {
+                        $oEx = oxNew('oxInputException');
+                        $oEx->setMessage(oxRegistry::getLang()->translateString('JXPASSWORD_ERROR_CONTAINS_BIRTHDAY'));
+
+                        return $this->_addValidationError("oxuser__oxpassword", $oEx);
+                    }
                 }
             }
         } 
@@ -137,7 +159,7 @@ echo 'oUser not empty'.'<br>';
                 foreach ($aEmailParts as $key => $sEmailPart) {
                     if (strpos(strtoupper($sNewPass), strtoupper($sEmailPart)) !== false) {
                         $oEx = oxNew('oxInputException');
-                        $oEx->setMessage(oxRegistry::getLang()->translateString('JXPASSWORDPOLICY_ERROR_CONTAINS_EMAIL'));
+                        $oEx->setMessage(oxRegistry::getLang()->translateString('JXPASSWORD_ERROR_CONTAINS_EMAIL'));
 
                         return $this->_addValidationError("oxuser__oxpassword", $oEx);
                     }
@@ -147,7 +169,7 @@ echo 'oUser not empty'.'<br>';
             if ($oConfig->getConfigParam('bJxPasswordMustntContainName')) {
                 if ((strpos(strtoupper($sNewPass), strtoupper($aInvAddress['oxuser__oxfname'])) !== false) || (strpos(strtoupper($sNewPass), strtoupper($aInvAddress['oxuser__oxlname'])) !== false)) {
                         $oEx = oxNew('oxInputException');
-                        $oEx->setMessage(oxRegistry::getLang()->translateString('JXPASSWORDPOLICY_ERROR_CONTAINS_NAME'));
+                        $oEx->setMessage(oxRegistry::getLang()->translateString('JXPASSWORD_ERROR_CONTAINS_NAME'));
 
                         return $this->_addValidationError("oxuser__oxpassword", $oEx);
                 }
@@ -175,11 +197,34 @@ echo 'oUser not empty'.'<br>';
         //remove element [0]
         array_shift($aResult);
         
-$oConfig = oxRegistry::get('oxConfig');
-$sLogPath = $oConfig->getConfigParam("sShopDir") . '/log/';
-$fh = fopen($sLogPath.'jxmods.log', "a+");
-fputs($fh, print_r($aResult, true)."\n");
-fclose($fh);
+        return $aResult;
+    }
+    
+    
+    /**
+     * Splits the birthday into years, month and day
+     * 
+     * @param string $sDate Birthday as ISO date 
+     * 
+     * @return array|null
+     */
+    private function _splitBirthday($sDate) 
+    {
+        if (empty($sDate)) {
+            return array();
+        }
+        
+        preg_match_all("/([0-9]{2})([0-9]{2})-([0-9]{2})-([0-9]{2})/", $sDate, $aResult, PREG_SET_ORDER);
+
+        if (empty($aResult)) {
+            return array();
+        }
+
+        //move one level higher
+        $aResult = $aResult[0];
+
+        //remove element [0]
+        array_shift($aResult);
 
         return $aResult;
     }

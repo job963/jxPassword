@@ -27,7 +27,7 @@ $aModule = array(
                                 . '<li>Check of repeatings (name, email, ...)</ul>',
                         ),
     'thumbnail'    => 'jxpassword.png',
-    'version'      => '0.1.1',
+    'version'      => '0.2.0',
     'author'       => 'Joachim Barthel',
     'url'          => 'https://github.com/job963/jxPassword',
     'email'        => 'jobarthel@gmail.com',
@@ -95,6 +95,12 @@ $aModule = array(
                                 ),
                             array(
                                 'group' => 'JXPASSWORD_PASSWORDRULES', 
+                                'name'  => 'bJxPasswordMustBeDifferent',  
+                                'type'  => 'bool', 
+                                'value' => true
+                                ),
+                            array(
+                                'group' => 'JXPASSWORD_PASSWORDRULES', 
                                 'name'  => 'bJxPasswordMustntContainEmail',  
                                 'type'  => 'bool', 
                                 'value' => true
@@ -114,6 +120,12 @@ $aModule = array(
                             array(
                                 'group' => 'JXPASSWORD_PASSWORDRULES', 
                                 'name'  => 'bJxPasswordMustntContainAddress',  
+                                'type'  => 'bool', 
+                                'value' => true
+                                ),
+                            array(
+                                'group' => 'JXPASSWORD_PASSWORDRULES', 
+                                'name'  => 'bJxPasswordMustntContainBirthday',  
                                 'type'  => 'bool', 
                                 'value' => true
                                 ),

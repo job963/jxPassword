@@ -47,7 +47,7 @@ class jxpassword_account_password extends jxpassword_account_password_parent
 
         /** @var oxInputValidator $oInputValidator */
         $oInputValidator = oxRegistry::get('oxInputValidator');
-        if (($oExcp = $oInputValidator->checkPassword($oUser, $sNewPass, $sConfPass, true))) {
+        if (($oExcp = $oInputValidator->checkPassword($oUser, $sNewPass, $sConfPass, true, $sOldPass))) {
             $sErrMsg = $oExcp->getMessage();
             if (sErrMsg == 'ERROR_MESSAGE_INPUT_EMPTYPASS') {
                 $sErrMsg = 'ERROR_MESSAGE_PASSWORD_TOO_SHORT';
@@ -57,27 +57,6 @@ class jxpassword_account_password extends jxpassword_account_password_parent
                 false,
                 true
             );
-            /* switch ($oExcp->getMessage()) {
-                case 'ERROR_MESSAGE_INPUT_EMPTYPASS':
-                case 'ERROR_MESSAGE_PASSWORD_TOO_SHORT':
-                    return oxRegistry::get("oxUtilsView")->addErrorToDisplay(
-                        'ERROR_MESSAGE_PASSWORD_TOO_SHORT',
-                        false,
-                        true
-                    );
-                case 'ERROR_MESSAGE_PASSWORD_TOO_SHORT':
-                    return oxRegistry::get("oxUtilsView")->addErrorToDisplay(
-                        'ERROR_MESSAGE_PASSWORD_TOO_SHORT',
-                        false,
-                        true
-                    );
-                default:
-                    return oxRegistry::get("oxUtilsView")->addErrorToDisplay(
-                        'ERROR_MESSAGE_PASSWORD_DO_NOT_MATCH',
-                        false,
-                        true
-                    );
-            } */
         }
 
         if (!$sOldPass || !$oUser->isSamePassword($sOldPass)) {
